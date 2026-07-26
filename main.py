@@ -24,6 +24,9 @@ def main():
                 print("Enter something else!")
                 print("------------------------------------")
 
+def game():
+    rnd = 0 #It must be 'last round', not 0
+    
 
 def game():
     rnd = 0 #It must be 'last round', not 0
