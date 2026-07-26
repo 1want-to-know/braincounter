@@ -1,78 +1,6 @@
 Round: 1
 Operator: +
 Num1: 1
-Num2: 3
-Length: 2
-Correct: 2
-Wrong: 0
-
-Round: 2
-Operator: -
-Num1: -4
-Num2: 4
-Length: 4
-Correct: 4
-Wrong: 0
-
-Round: 1
-Operator: +
-Num1: 1
-Num2: 1
-Length: 4
-Correct: 4
-Wrong: 0
-
-Round: 2
-Operator: -
-Num1: 1
-Num2: 1
-Length: 7
-Correct: 7
-Wrong: 0
-
-Round: 1
-Operator: +
-Num1: 1
-Num2: 10
-Length: 7
-Correct: 7
-Wrong: 0
-
-Round: 1
-Operator: +
-Num1: 1
-Num2: 2
-Length: 1
-Correct: 1
-Wrong: 0
-
-Round: 1
-Operator: +
-Num1: 1
-Num2: 1
-Length: 1
-Correct: 1
-Wrong: 0
-
-Round: 1
-Operator: +
-Num1: 1
-Num2: 1
-Length: 1
-Correct: 1
-Wrong: 0
-
-Round: 1
-Operator: +
-Num1: 1
-Num2: 1
-Length: 1
-Correct: 1
-Wrong: 0
-
-Round: 1
-Operator: +
-Num1: 1
 Num2: 1
 Length: 1
 Correct: 1
@@ -84,13 +12,5 @@ Num1: 1
 Num2: 1
 Length: 1
 Correct: 1
-Wrong: 0
-
-Round: 1
-Operator: +
-Num1: 2
-Num2: 2
-Length: 2
-Correct: 2
 Wrong: 0
 

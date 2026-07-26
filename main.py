@@ -24,28 +24,38 @@ def main():
                 print("Enter something else!")
                 print("------------------------------------")
 
+
 def game():
+    rnd = open_last_round()
     while True:
         #preparing for a game
-        rnd, leng_res, lenght, oper, nums = prepare_game() 
+        rnd, leng_res, lenght, oper, nums = prepare_game(rnd) 
         start_game(rnd, leng_res, lenght, oper, nums)
         #results in start_game cuz i didn't get how to send data to results in another way
 
 
-def prepare_game():
-    rnd = 0
+def open_last_round():
+    with open('Results.txt', 'r') as fi:
+        for line in fi:
+            if line.startswith('Round: '):
+                parts = line.split(': ', 1)
+                return int(parts[1])
+        return 0
+
+
+def prepare_game(rnd):
     operators_unlocked = ['+', '-', '*', '/']
     while True:
         print("How many problems?")
-        leng_res = length = int(input()) #leng is for write_res
-        if length > 0:
+        leng_res = lenght = int(input()) #leng is for write_res
+        if lenght > 0:
             print("Enter operator: +, -, *, /")
             oper = input()
             if oper in operators_unlocked:
                 print("Enter 2 numbers: minimum, maximum")
                 nums = list(map(int, input().split()))
                 if len(nums) == 2:
-                    return rnd, leng_res, length, oper, nums
+                    return rnd, leng_res, lenght, oper, nums
                 else:
                     print("ERROR: you have entered either too many or too few numbers")
             else:
@@ -71,11 +81,11 @@ def start_game(rnd, leng_res, lenght, oper, nums):
         res = int(input())
         if res == res_cor:
             print("Great!")
-            length -= 1
+            lenght -= 1
             crt += 1
         else:
             print("Wrong!")
-            length -= 1
+            lenght -= 1
             wrg += 1
     results(rnd, oper, num1, num2, leng_res, crt, wrg)
 
