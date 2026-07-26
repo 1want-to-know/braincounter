@@ -3,27 +3,26 @@ from correct_ans import cor_ans
 from file_work import write_res, read_this
 
 def main():
-    print("1 - start a game, 2 - looking for in 'results', 3 - quit")
-    chz = input()
-    match chz:
-        case '1':
-            game()
+    while True:
+        print("1 - start a game, 2 - looking for in 'results', 3 - quit")
+        chz = input()
+        match chz:
+            case '1':
+                game()
 
-        case '2':
-            print("What do you want to find?")
-            print("Write 'help' to discover commands")
-            sth = input().lower()
-            read_this(sth)
-            print("------------------------------------")
-            main()
+            case '2':
+                print("What do you want to find?")
+                print("Write 'help' to discover commands")
+                sth = input().lower()
+                read_this(sth)
+                print("------------------------------------")
 
-        case '3':
-            quit()
+            case '3':
+                quit()
 
-        case _:
-            print("Enter something else!")
-            print("------------------------------------")
-            main()
+            case _:
+                print("Enter something else!")
+                print("------------------------------------")
 
 
 def game():
@@ -40,7 +39,7 @@ def game():
             print("Enter 2 numbers: minimum, maximum")
             nums = list(map(int, input().split()))
 
-            if len(nums) == 2 and nums[1] != 0:
+            if len(nums) == 2:
                 while length > 0:
                     #the game starts
                     first = random.randint(nums[0], nums[1])

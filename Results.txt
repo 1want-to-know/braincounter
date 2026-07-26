@@ -86,3 +86,19 @@ Length: 1
 Correct: 1
 Wrong: 0
 
+Round: 1
+Operator: 2
+Num1: 2
+Num2: 2
+Length: 2
+Correct: 0
+Wrong: 2
+
+Round: 1
+Operator: +
+Num1: 2
+Num2: 2
+Length: 2
+Correct: 2
+Wrong: 0
+
