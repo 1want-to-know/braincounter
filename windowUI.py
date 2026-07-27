@@ -17,7 +17,7 @@ def quit_btn():
 
 
 app = customtkinter.CTk()
-app.title('Test')
+app.title('BrainCounter')
 app.geometry("1200x600")
 app.grid_columnconfigure(1, weight=1)
 app.grid_rowconfigure(0, weight=1)
