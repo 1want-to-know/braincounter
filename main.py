@@ -29,8 +29,8 @@ def game():
     rnd = open_last_round()
     while True:
         #preparing for a game
-        rnd, leng_res, lenght, oper, nums = prepare_game(rnd) 
-        start_game(rnd, leng_res, lenght, oper, nums)
+        rnd, leng_res, length, oper, nums = prepare_game(rnd) 
+        start_game(rnd, leng_res, length, oper, nums)
         #results in start_game cuz i didn't get how to send data to results in another way
 
 
@@ -47,15 +47,15 @@ def prepare_game(rnd):
     operators_unlocked = ['+', '-', '*', '/']
     while True:
         print("How many problems?")
-        leng_res = lenght = int(input()) #leng is for write_res
-        if lenght > 0:
+        leng_res = length = int(input()) #leng is for write_res
+        if length > 0:
             print("Enter operator: +, -, *, /")
             oper = input()
             if oper in operators_unlocked:
                 print("Enter 2 numbers: minimum, maximum")
                 nums = list(map(int, input().split()))
                 if len(nums) == 2:
-                    return rnd, leng_res, lenght, oper, nums
+                    return rnd, leng_res, length, oper, nums
                 else:
                     print("ERROR: you have entered either too many or too few numbers")
             else:
@@ -64,12 +64,12 @@ def prepare_game(rnd):
             print("Enter another num!")
 
 
-def start_game(rnd, leng_res, lenght, oper, nums):
+def start_game(rnd, leng_res, length, oper, nums):
     crt = 0 #correct answers
     wrg = 0 #wrong answers
     num1 = nums[0]
     num2 = nums[1]
-    while lenght > 0:
+    while length > 0:
         first = random.randint(num1, num2)
         second = random.randint(num1, num2)
         res_cor = cor_ans(first, second, oper) #counting correct answer
@@ -81,11 +81,11 @@ def start_game(rnd, leng_res, lenght, oper, nums):
         res = int(input())
         if res == res_cor:
             print("Great!")
-            lenght -= 1
+            length -= 1
             crt += 1
         else:
             print("Wrong!")
-            lenght -= 1
+            length -= 1
             wrg += 1
     results(rnd, oper, num1, num2, leng_res, crt, wrg)
 
