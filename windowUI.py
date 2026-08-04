@@ -1,26 +1,30 @@
 import customtkinter as customtk
 import ctk_widgets
+import main
+import correct_ans
+import file_work #am I need it?
 
 #start -> st
 #button -> btn
 #commands -> comm
 #window -> wd
 #game -> gm
+#spinbox -> spinb
+#problem(math) -> prob
 
-
-#main_window
+#supreme_wd
 app = customtk.CTk()
 app.title('BrainCounter')
 app.geometry("1200x600")
 app.grid_columnconfigure(0, weight=1)
 app.grid_rowconfigure(0, weight=1)
-#main_window
-
-
+#supreme_wd
+#other_wd
 main_wd = customtk.CTkFrame(app)
 gm_wd = customtk.CTkFrame(app)
 gm_wd_sett = customtk.CTkFrame(app)
 comm_wd = customtk.CTkFrame(app)
+#other_wd
 
 
 def show_main():
@@ -68,45 +72,45 @@ def st_gm_settings():
         gm_wd_sett.grid_rowconfigure(i, weight=1)
 
     #SETTINGS--------------------------------------------------------
-    text_probl = customtk.CTkLabel(gm_wd_sett,
+    text_prob = customtk.CTkLabel(gm_wd_sett,
                                         text='How many problems?',
-                                        font=("Arial", 22))
-    text_probl.grid(row=0, column=0, padx=0, pady=0)
-    spinbox = ctk_widgets.IntSpinbox(gm_wd_sett, width=150, step_size=1, huge_step_size=10)
-    spinbox.grid(row=1, column=0)
+                                        font=("Arial", 22)) # FOR PROBLEMS
+    text_prob.grid(row=0, column=0, padx=0, pady=0)
+    prob_spinb = ctk_widgets.IntSpinbox(gm_wd_sett, width=150, step_size=1, huge_step_size=10)
+    prob_spinb.grid(row=1, column=0)
 
 
-    text_probl = customtk.CTkLabel(gm_wd_sett,
+    text_oper = customtk.CTkLabel(gm_wd_sett,
                                         text='An operator: + - * /',
-                                        font=("Arial", 22))
-    text_probl.grid(row=0, column=1, padx=0, pady=0)
+                                        font=("Arial", 22)) #FOR OPERATOR
+    text_oper.grid(row=0, column=1, padx=0, pady=0)
     oper_spinb = ctk_widgets.OperatorSpinbox(gm_wd_sett, width=150, step_size=1, place_oper=0)
     oper_spinb.grid(row=1, column=1)
 
 
     text_min_num = customtk.CTkLabel(gm_wd_sett,
                                         text='Enter minimum num',
-                                        font=("Arial", 22))
+                                        font=("Arial", 22))  #FOR MINNUM
     text_min_num.grid(row=0, column=3, padx=0, pady=0)
-    minspinbox = ctk_widgets.IntSpinbox(gm_wd_sett, width=150, step_size=1, huge_step_size=10)
-    minspinbox.grid(row=1, column=3)
+    min_spinb = ctk_widgets.IntSpinbox(gm_wd_sett, width=150, step_size=1, huge_step_size=10)
+    min_spinb.grid(row=1, column=3)
 
     text_max_num = customtk.CTkLabel(gm_wd_sett,
                                             text='Enter maximum num',
-                                            font=("Arial", 22))
+                                            font=("Arial", 22))  #FOR MAXNUM
     text_max_num.grid(row=0, column=4, padx=0, pady=0)
-    maxspinbox = ctk_widgets.IntSpinbox(gm_wd_sett, width=150, step_size=1, huge_step_size=10)
-    maxspinbox.grid(row=1, column=4)
+    max_spinb = ctk_widgets.IntSpinbox(gm_wd_sett, width=150, step_size=1, huge_step_size=10)
+    max_spinb.grid(row=1, column=4)
 
     #START_BUTTON--------------------------------------------------------
     btn_gm = customtk.CTkButton(gm_wd_sett, 
                                     text='play', font=("Arial", 22),
                                     width=200, height=40,
-                                    command=st_gm)
+                                    command=lambda: st_gm(prob_spinb.get(), oper_spinb.get(), min_spinb.get(), max_spinb.get()))
     btn_gm.grid(row=14, column=2, padx=0, pady=0)
 
 
-def st_gm():
+def st_gm(prob, oper, minnum, maxnum):
     gm_wd_sett.grid_remove()
     gm_wd.grid(row=0, column=0, sticky='nsew')
     gm_wd.grid_columnconfigure(1, weight=1)

@@ -165,14 +165,10 @@ class OperatorSpinbox(customtkinter.CTkFrame):
             self.entry.insert(0, oper)
         except ValueError:
             return
-        
 
-    def get(self) -> Union[int, None]:
+
+    def get(self) -> Union[str, None]:
         try:
-            return int(self.entry.get())
+            return self.entry.get()
         except ValueError:
             return None
-
-    def set(self, value: int):
-        self.entry.delete(0, "end")
-        self.entry.insert(0, str(int(value)))
