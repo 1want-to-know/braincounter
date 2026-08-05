@@ -1,5 +1,5 @@
 
-def cor_ans(fir, sec, oper):
+def corr_ans(fir, sec, oper):
     match oper:
         case '+':
             return fir + sec

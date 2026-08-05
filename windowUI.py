@@ -10,12 +10,13 @@ import file_work #am I need it?
 #window -> wd
 #game -> gm
 #spinbox -> spinb
-#problem(math) -> prob
+#example(math) -> ex
+#amount of examples -> amou_ex
 
 #supreme_wd
 app = customtk.CTk()
 app.title('BrainCounter')
-app.geometry("1200x600")
+app.geometry("1000x500")
 app.grid_columnconfigure(0, weight=1)
 app.grid_rowconfigure(0, weight=1)
 #supreme_wd
@@ -62,6 +63,7 @@ def show_main():
                                     command=quit_btn)
     btn_quit.grid(row=1, column=1, padx=0, pady=(100,0))
 
+#TODO: Separate show_main, st_gm ets. into files
 
 def st_gm_settings():
     main_wd.grid_remove()
@@ -72,12 +74,12 @@ def st_gm_settings():
         gm_wd_sett.grid_rowconfigure(i, weight=1)
 
     #SETTINGS--------------------------------------------------------
-    text_prob = customtk.CTkLabel(gm_wd_sett,
-                                        text='How many problems?',
-                                        font=("Arial", 22)) # FOR PROBLEMS
-    text_prob.grid(row=0, column=0, padx=0, pady=0)
-    prob_spinb = ctk_widgets.IntSpinbox(gm_wd_sett, width=150, step_size=1, huge_step_size=10)
-    prob_spinb.grid(row=1, column=0)
+    text_amou_ex = customtk.CTkLabel(gm_wd_sett,
+                                        text='How many examples?',
+                                        font=("Arial", 22))
+    text_amou_ex.grid(row=0, column=0, padx=0, pady=0)
+    ex_spinb = ctk_widgets.IntSpinbox(gm_wd_sett, width=150, step_size=1, huge_step_size=10)
+    ex_spinb.grid(row=1, column=0)
 
 
     text_oper = customtk.CTkLabel(gm_wd_sett,
@@ -103,33 +105,42 @@ def st_gm_settings():
     max_spinb.grid(row=1, column=4)
 
     #START_BUTTON--------------------------------------------------------
+    rnd = open_last_round()
+    crt = 0 #correct answers
+    wrg = 0 #wrong answers
     btn_gm = customtk.CTkButton(gm_wd_sett, 
                                     text='play', font=("Arial", 22),
                                     width=200, height=40,
-                                    command=lambda: st_gm(prob_spinb.get(), oper_spinb.get(), min_spinb.get(), max_spinb.get()))
+                                    command=lambda: st_gm(ex_spinb.get(), oper_spinb.get(), min_spinb.get(), max_spinb.get(), rnd, crt, wrg))
     btn_gm.grid(row=14, column=2, padx=0, pady=0)
 
 
-def st_gm(prob, oper, minnum, maxnum):
+#For updating examples in st_gm----------------------------------------------------------------------------------
+text_ex = customtk.CTkLabel(gm_wd, text='', font=("Arial", 144))
+text_ex.grid(row=0, column=1, padx=0, pady=0)
+ans = customtk.CTkEntry(gm_wd,
+                            placeholder_text='enter', font=("Arial", 22),
+                            width=200, height=40)
+ans.grid(row=2, column=1, padx=0, pady=0)
+#For updating examples in st_gm----------------------------------------------------------------------------------
+
+def st_gm(amou_ex, oper, minnum, maxnum, rnd, crt, wrg):
     gm_wd_sett.grid_remove()
+    gm_wd.grid_remove()
     gm_wd.grid(row=0, column=0, sticky='nsew')
     gm_wd.grid_columnconfigure(1, weight=1)
     for i in range(3):
         gm_wd.grid_rowconfigure(i, weight=1)
+    
+    #GENERATE_EXAMPLE------------------------------------------------
+    a, b, corr_val = main.gen_ex(minnum, maxnum, oper)
 
-    #BUTTONS--------------------------------------------------------
-    btn_gm = customtk.CTkButton(gm_wd, 
-                                    text='main menu', font=("Arial", 22),
-                                    width=200, height=40,
-                                    command=show_main)
-    btn_gm.grid(row=1, column=1, padx=0, pady=0)
+    #TEXT_EXAMPLE----------------------------------------------------
+    text_ex.configure(text=f'{a} {oper} {b} = ?')
 
     #TEXTBOX--------------------------------------------------------
-    ans = customtk.CTkEntry(gm_wd,
-                                placeholder_text='enter', font=("Arial", 22),
-                                width=200, height=40)
-    ans.grid(row=2, column=1, padx=0, pady=0)
-    ans.bind('<Return>', lambda event: check_ans(ans))
+    ans.unbind('<Return>')
+    ans.bind('<Return>', lambda event: check_ans(ans, amou_ex, corr_val, oper, minnum, maxnum, rnd, crt, wrg))
     ans.focus()
 
 
@@ -153,14 +164,33 @@ def quit_btn():
 
 
 #some functions for keeping it work
-def check_ans(entry_answer: customtk.CTkEntry):
-    user_ans = entry_answer.get()
-    print(user_ans)
-    entry_answer.delete(0, 'end')
-    entry_answer.focus()
+def check_ans(entry_answer: customtk.CTkEntry, amou_ex, corr_val: int, oper, minnum, maxnum, rnd, crt, wrg):
+    user_ans = int(entry_answer.get())
+    check = main.answer(user_ans, corr_val)
+    if check == True:
+        crt += 1
+        print("crt", crt)
+        entry_answer.delete(0, 'end')
+        entry_answer.focus()
+    else:
+        wrg += 1
+        print("wrg", wrg)
+        entry_answer.delete(0, 'end')
+        entry_answer.focus()
+    
+    if amou_ex >= 1:
+        amou_ex -= 1
+        st_gm(amou_ex, oper, minnum, maxnum, rnd, crt, wrg)
+    else:
+        show_main()
 
-
-
+def open_last_round():
+    with open('Results.txt', 'r') as fi:
+        for line in fi:
+            if line.startswith('Round: '):
+                parts = line.split(': ', 1)
+                return int(parts[1])
+        return 0
 
 show_main()
 
