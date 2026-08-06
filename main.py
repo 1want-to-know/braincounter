@@ -15,6 +15,16 @@ def answer(user_ans, corr_val):
     else:
         return False
 
+
+def open_last_round():
+    with open('Results.txt', 'r') as fi:
+        for line in fi:
+            if line.startswith('Round: '):
+                parts = line.split(': ', 1)
+                return int(parts[1])
+        return 0
+
+    
 """
 def start_game(rnd, leng_res, length, oper, nums):
     while length > 0:

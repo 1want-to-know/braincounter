@@ -24,6 +24,7 @@ app.grid_rowconfigure(0, weight=1)
 main_wd = customtk.CTkFrame(app)
 gm_wd = customtk.CTkFrame(app)
 gm_wd_sett = customtk.CTkFrame(app)
+gm_results = customtk.CTkFrame(app)
 comm_wd = customtk.CTkFrame(app)
 #other_wd
 
@@ -31,7 +32,7 @@ comm_wd = customtk.CTkFrame(app)
 def show_main():
     #deleting other wd
     gm_wd.grid_remove()
-    gm_wd_sett.grid_remove()
+    gm_results.grid_remove()
     comm_wd.grid_remove()
 
     main_wd.grid(row=0, column=0, sticky='nsew')
@@ -105,7 +106,7 @@ def st_gm_settings():
     max_spinb.grid(row=1, column=4)
 
     #START_BUTTON--------------------------------------------------------
-    rnd = open_last_round()
+    rnd = main.open_last_round()
     crt = 0 #correct answers
     wrg = 0 #wrong answers
     btn_gm = customtk.CTkButton(gm_wd_sett, 
@@ -140,8 +141,36 @@ def st_gm(amou_ex, oper, minnum, maxnum, rnd, crt, wrg):
 
     #TEXTBOX--------------------------------------------------------
     ans.unbind('<Return>')
-    ans.bind('<Return>', lambda event: check_ans(ans, amou_ex, corr_val, oper, minnum, maxnum, rnd, crt, wrg))
+    ans.bind('<Return>', lambda event: check_ans(ans, amou_ex, corr_val, oper, minnum, maxnum, rnd, crt, wrg, ))
     ans.focus()
+
+
+
+
+def results_func(oper, crt, wrg):
+    gm_wd.grid_remove()
+    gm_results.grid(row=0, column=0, sticky='nsew')
+    gm_results.grid_columnconfigure(1, weight=1)
+    for i in range(8):
+        gm_results.grid_rowconfigure(i, weight=1)
+    
+    #RESULTS---------------------------------------------------------
+    res_oper = customtk.CTkLabel(gm_results, text=f'operator: {oper}', font=("Arial", 36))
+    res_oper.grid(row=2, column=1, padx=0, pady=0)
+
+    res_crt = customtk.CTkLabel(gm_results, text=f'correct: {crt}', font=("Arial", 36))
+    res_crt.grid(row=3, column=1, padx=0, pady=0)
+
+    res_wrg = customtk.CTkLabel(gm_results, text=f'wrong: {wrg}', font=("Arial", 36))
+    res_wrg.grid(row=4, column=1, padx=0, pady=0)
+
+
+
+    gm_exit = customtk.CTkButton(gm_results, 
+                                    text='main menu', font=("Arial", 22),
+                                    width=200, height=40,
+                                    command=show_main)
+    gm_exit.grid(row=7, column=1, padx=0, pady=0)
 
 
 def comm():
@@ -182,15 +211,8 @@ def check_ans(entry_answer: customtk.CTkEntry, amou_ex, corr_val: int, oper, min
         amou_ex -= 1
         st_gm(amou_ex, oper, minnum, maxnum, rnd, crt, wrg)
     else:
-        show_main()
+        results_func(oper, crt, wrg)
 
-def open_last_round():
-    with open('Results.txt', 'r') as fi:
-        for line in fi:
-            if line.startswith('Round: '):
-                parts = line.split(': ', 1)
-                return int(parts[1])
-        return 0
 
 show_main()
 
