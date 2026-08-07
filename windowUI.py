@@ -20,6 +20,7 @@ app.geometry("1000x500")
 app.grid_columnconfigure(0, weight=1)
 app.grid_rowconfigure(0, weight=1)
 #supreme_wd
+
 #other_wd
 main_wd = customtk.CTkFrame(app)
 gm_wd = customtk.CTkFrame(app)
@@ -77,9 +78,10 @@ def st_gm_settings():
     #SETTINGS--------------------------------------------------------
     text_amou_ex = customtk.CTkLabel(gm_wd_sett,
                                         text='How many examples?',
-                                        font=("Arial", 22))
+                                        font=("Arial", 22)) #FOR EXAMPLES
     text_amou_ex.grid(row=0, column=0, padx=0, pady=0)
-    ex_spinb = ctk_widgets.IntSpinbox(gm_wd_sett, width=150, step_size=1, huge_step_size=10)
+    ex_spinb = ctk_widgets.IntSpinbox(gm_wd_sett, width=150, min_size=True, step_size=1, huge_step_size=10)
+    ex_spinb.set(1)
     ex_spinb.grid(row=1, column=0)
 
 
@@ -144,7 +146,14 @@ def st_gm(amou_ex, oper, minnum, maxnum, rnd, crt, wrg):
     ans.bind('<Return>', lambda event: check_ans(ans, amou_ex, corr_val, oper, minnum, maxnum, rnd, crt, wrg, ))
     ans.focus()
 
-
+def check_ans(entry_answer: customtk.CTkEntry, amou_ex, corr_val: int, oper, minnum, maxnum, rnd, crt, wrg):
+    user_ans = int(entry_answer.get())
+    crt, wrg, amou_ex = main.answer(user_ans, corr_val, crt, wrg, amou_ex)
+    entry_answer.delete(0, 'end')
+    if amou_ex >= 1:
+        st_gm(amou_ex, oper, minnum, maxnum, rnd, crt, wrg)
+    else:
+        results_func(oper, crt, wrg)
 
 
 def results_func(oper, crt, wrg):
@@ -163,7 +172,6 @@ def results_func(oper, crt, wrg):
 
     res_wrg = customtk.CTkLabel(gm_results, text=f'wrong: {wrg}', font=("Arial", 36))
     res_wrg.grid(row=4, column=1, padx=0, pady=0)
-
 
 
     gm_exit = customtk.CTkButton(gm_results, 
@@ -190,28 +198,6 @@ def comm():
 
 def quit_btn():
     app.destroy()
-
-
-#some functions for keeping it work
-def check_ans(entry_answer: customtk.CTkEntry, amou_ex, corr_val: int, oper, minnum, maxnum, rnd, crt, wrg):
-    user_ans = int(entry_answer.get())
-    check = main.answer(user_ans, corr_val)
-    if check == True:
-        crt += 1
-        print("crt", crt)
-        entry_answer.delete(0, 'end')
-        entry_answer.focus()
-    else:
-        wrg += 1
-        print("wrg", wrg)
-        entry_answer.delete(0, 'end')
-        entry_answer.focus()
-    
-    if amou_ex >= 1:
-        amou_ex -= 1
-        st_gm(amou_ex, oper, minnum, maxnum, rnd, crt, wrg)
-    else:
-        results_func(oper, crt, wrg)
 
 
 show_main()

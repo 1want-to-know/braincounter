@@ -5,12 +5,14 @@ class IntSpinbox(customtkinter.CTkFrame):
     def __init__(self, *args,
                  width: int = 100,
                  height: int = 32,
-                 step_size: Union[int] = 1,
-                 huge_step_size: Union[int] = 10,
+                 min_size: bool = False,
+                 step_size: int = 1,
+                 huge_step_size: int = 10,
                  command: Callable = None,
                  **kwargs):
         super().__init__(*args, width=width, height=height, **kwargs)
 
+        self.min_size = min_size
         self.step_size = step_size
         self.huge_step_size = huge_step_size
         self.command = command
@@ -65,15 +67,22 @@ class IntSpinbox(customtkinter.CTkFrame):
             except ValueError:
                 return
 
-
     #SUBSTRACTBUTTONS---------------------------------------------------
     def subtract_button_callback(self):
         if self.command is not None:
             self.command()
         try:
-            value = int(self.entry.get()) - self.step_size
-            self.entry.delete(0, "end")
-            self.entry.insert(0, value)
+            if self.min_size == False:
+                value = int(self.entry.get()) - self.step_size
+                self.entry.delete(0, "end")
+                self.entry.insert(0, value)
+            else:
+                if int(self.entry.get()) > 1:
+                    value = int(self.entry.get()) - self.step_size
+                    self.entry.delete(0, "end")
+                    self.entry.insert(0, value)
+                else:
+                    return
         except ValueError:
             return
     
@@ -81,9 +90,18 @@ class IntSpinbox(customtkinter.CTkFrame):
         if self.command is not None:
             self.command()
         try:
-            value = int(self.entry.get()) - self.huge_step_size
-            self.entry.delete(0, "end")
-            self.entry.insert(0, value)
+            if self.min_size == False:
+                value = int(self.entry.get()) - self.huge_step_size
+                self.entry.delete(0, "end")
+                self.entry.insert(0, value)
+            else:
+                if int(self.entry.get()) > 10:
+                    value = int(self.entry.get()) - self.huge_step_size
+                    self.entry.delete(0, "end")
+                    self.entry.insert(0, value)
+                elif int(self.entry.get()) > 1 and int(self.entry.get()) <= 10:
+                    self.entry.delete(0, "end")
+                    self.entry.insert(0, "1") 
         except ValueError:
             return
 
@@ -93,13 +111,13 @@ class IntSpinbox(customtkinter.CTkFrame):
         except ValueError:
             return None
 
-    def set(self, value: int):
+    def set(self, value):
         self.entry.delete(0, "end")
-        self.entry.insert(0, str(int(value)))
+        self.entry.insert(0, str(value))
 
 
 
-#ANOTHERCLASS------------------------------------------------------------------------------------
+#ANOTHERCLASS---------------------------------------------------------------------------------------------------------------------------
 all_operatores = ['+', '-', '*', '/']
 class OperatorSpinbox(customtkinter.CTkFrame):
     def __init__(self, *args,
