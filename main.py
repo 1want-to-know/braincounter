@@ -11,17 +11,13 @@ def gen_ex(min: int, max: int, oper):
 
 
 def answer(user_ans, corr_val, crt, wrg, amou_ex):
-    if amou_ex >= 1:
-        amou_ex -= 1
-        if user_ans == corr_val:
-            crt += 1
-            return crt, wrg, amou_ex
-        else:
-            wrg += 1
-            return crt, wrg, amou_ex
+    amou_ex -= 1
+    if user_ans == corr_val:
+        crt += 1
+        return crt, wrg, amou_ex
     else:
-        return
-
+        wrg += 1
+        return crt, wrg, amou_ex
 
 def open_last_round():
     with open('Results.txt', 'r') as fi:
