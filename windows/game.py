@@ -10,8 +10,8 @@ def upload_game(gm_wd):
     ans.grid(row=2, column=1, padx=0, pady=0)
     return text_ex, ans
 
-def st_gm(gm_wd, amou_ex, oper, minnum, maxnum, rnd, crt, wrg, results_func):
-    text_ex, ans = upload_game(gm_wd)
+
+def st_gm(gm_wd: customtk.CTkFrame, amou_ex: int, oper: str, minnum: int, maxnum: int, rnd: bool, crt: int, wrg: int, text_ex: customtk.CTkLabel, ans: customtk.CTkEntry, results_func):
     gm_wd.grid(row=0, column=0, sticky='nsew')
     gm_wd.grid_columnconfigure(1, weight=1)
     for i in range(3):
@@ -25,14 +25,15 @@ def st_gm(gm_wd, amou_ex, oper, minnum, maxnum, rnd, crt, wrg, results_func):
 
     #TEXTBOX--------------------------------------------------------
     ans.unbind('<Return>')
-    ans.bind('<Return>', lambda event: check_ans(gm_wd, ans, amou_ex, corr_val, oper, minnum, maxnum, rnd, crt, wrg, results_func))
+    ans.bind('<Return>', lambda event: check_ans(gm_wd, ans, amou_ex, corr_val, oper, minnum, maxnum, rnd, crt, wrg, text_ex, ans, results_func))
     ans.focus()
 
-def check_ans(gm_wd, entry_answer: customtk.CTkEntry, amou_ex, corr_val: int, oper, minnum, maxnum, rnd, crt, wrg, results_func):
+#TODO: do sth with a lot of data in function parameters, maybe create a class for it or something else
+def check_ans(gm_wd, entry_answer: customtk.CTkEntry, amou_ex: int, corr_val: int, oper: str, minnum: int, maxnum: int, rnd: bool, crt: int, wrg: int, text_ex: customtk.CTkLabel, ans: customtk.CTkEntry, results_func):
     user_ans = int(entry_answer.get())
     crt, wrg, amou_ex = main.answer(user_ans, corr_val, crt, wrg, amou_ex)
     entry_answer.delete(0, 'end')
     if amou_ex >= 1:
-        st_gm(gm_wd, amou_ex, oper, minnum, maxnum, rnd, crt, wrg, results_func)
+        st_gm(gm_wd, amou_ex, oper, minnum, maxnum, rnd, crt, wrg, text_ex, ans, results_func)
     else:
         results_func(oper, crt, wrg)

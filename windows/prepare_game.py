@@ -2,7 +2,7 @@ import customtkinter as customtk
 import windows.ctk_widgets as ctk_widgets
 import main
 
-def st_gm_settings(gm_wd_sett, st_gm):
+def load_st_gm_settings(gm_wd_sett, st_gm):
     gm_wd_sett.grid(row=0, column=0, sticky='nsew')
     for i in range(5):
         gm_wd_sett.grid_columnconfigure(i, weight=1)
@@ -18,14 +18,12 @@ def st_gm_settings(gm_wd_sett, st_gm):
     ex_spinb.set(1)
     ex_spinb.grid(row=1, column=0)
 
-
     text_oper = customtk.CTkLabel(gm_wd_sett,
                                         text='An operator: + - * /',
                                         font=("Arial", 22)) #FOR OPERATOR
     text_oper.grid(row=0, column=1, padx=0, pady=0)
     oper_spinb = ctk_widgets.OperatorSpinbox(gm_wd_sett, width=150, step_size=1, place_oper=0)
     oper_spinb.grid(row=1, column=1)
-
 
     text_min_num = customtk.CTkLabel(gm_wd_sett,
                                         text='Enter minimum num',
@@ -51,3 +49,17 @@ def st_gm_settings(gm_wd_sett, st_gm):
                                     command=lambda: st_gm(ex_spinb.get(), oper_spinb.get(), min_spinb.get(), max_spinb.get(), rnd, crt, wrg))
     btn_gm.grid(row=14, column=2, padx=0, pady=0)
 
+    return text_amou_ex, ex_spinb, text_oper, oper_spinb, text_min_num, min_spinb, text_max_num, max_spinb, btn_gm
+
+#TODO: WTF IS THIS??? HOW SO MANY DATA?? I HAVE TO FIX THAT!
+def st_gm_settings(gm_wd_sett, text_amou_ex, ex_spinb, text_oper, oper_spinb, text_min_num, min_spinb, text_max_num, max_spinb, btn_gm, st_gm):
+    gm_wd_sett.grid(row=0, column=0, sticky='nsew')
+    for i in range(5):
+        gm_wd_sett.grid_columnconfigure(i, weight=1)
+    for i in range(16):
+        gm_wd_sett.grid_rowconfigure(i, weight=1)
+    text_amou_ex.configure(text='How many examples?')
+    text_oper.configure(text='An operator: + - * /')
+    text_min_num.configure(text='Enter minimum num')
+    text_max_num.configure(text='Enter maximum num')
+    btn_gm.configure(text='play')

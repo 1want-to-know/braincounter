@@ -37,36 +37,43 @@ hide_frames = [main_wd, gm_wd, gm_wd_sett, gm_results, stats_wd]
 def hide_all_frames():
     for frame in hide_frames:
         frame.grid_remove()
+#hiding all frames
+
 
 def launch():
     hide_all_frames()
-    main_window.show_main(main_wd, 
-                            prepare_game=st_gm_settings, 
-                            stats_wd=comm, 
-                            quit_btn=quit_btn)
+    gmtitle, btn_gm, btn_comm, btn_quit = main_window.load_main(main_wd, prepare_game=st_gm_settings, 
+                                                        stats_wd=comm, quit_btn=quit_btn)
+    main_window.show_main(main_wd, prepare_game=st_gm_settings, stats_wd=comm, 
+                            quit_btn=quit_btn, gmtitle=gmtitle, btn_gm=btn_gm, btn_comm=btn_comm, btn_quit=btn_quit)
 
 
 def st_gm_settings():
     hide_all_frames()
-    prepare_game.st_gm_settings(gm_wd_sett,
-                                st_gm=st_gm)
+    text_amou_ex, ex_spinb, text_oper, oper_spinb, text_min_num, min_spinb, text_max_num, max_spinb, btn_gm = prepare_game.load_st_gm_settings(gm_wd_sett, st_gm=st_gm)
+    prepare_game.st_gm_settings(gm_wd_sett, text_amou_ex=text_amou_ex, ex_spinb=ex_spinb, text_oper=text_oper, oper_spinb=oper_spinb, 
+                                text_min_num=text_min_num, min_spinb=min_spinb, text_max_num=text_max_num, 
+                                max_spinb=max_spinb, btn_gm=btn_gm, st_gm=st_gm)
 
 
 def st_gm(amou_ex, oper, minnum, maxnum, rnd, crt, wrg):
     hide_all_frames()
-    game.st_gm(gm_wd, amou_ex, oper, minnum, maxnum, rnd, crt, wrg,
-                results_func=results_func)
+    text_ex, ans = game.upload_game(gm_wd)
+    game.st_gm(gm_wd, amou_ex, oper, minnum, maxnum, rnd, crt, wrg, text_ex=text_ex, ans=ans, results_func=results_func)
 
 
 def results_func(oper, crt, wrg):
     hide_all_frames()
+    res_oper, res_crt, res_wrg, gm_exit = results.upload_results(gm_results, launch=launch)
     results.show_results(gm_results, oper, crt, wrg,
-                            launch=launch)
+                            launch=launch, res_oper=res_oper, res_crt=res_crt, 
+                            res_wrg=res_wrg, gm_exit=gm_exit)
 
 
 def comm():
-    command_window.comm(stats_wd,
-                        launch=launch)
+    hide_all_frames()
+    btn_gm = command_window.load_comm(stats_wd, launch=launch)
+    command_window.comm(stats_wd, launch=launch, btn_gm=btn_gm)
 
 
 def quit_btn():
